@@ -1,0 +1,14 @@
+# This file is necessary because the version of Wally we're using does not
+# handle combinding dev-dependencies and dependencies properly.
+
+[package]
+name = "corecii/roact-template-tests"
+version = "0.1.0"
+description = "Tests for roact-template"
+license = "MIT"
+registry = "https://github.com/UpliftGames/wally-index"
+realm = "shared"
+
+[dependencies]
+ApiDumpStatic = "corecii/api-dump-static@^1.0"
+Roact = "roblox/roact@1.4.2"

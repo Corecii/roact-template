@@ -1,0 +1,21 @@
+{
+  "name": "test",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "$className": "ReplicatedStorage",
+      "lib": {
+        "$path": "src/packaged",
+        "packages": {
+          "$path": "test/Packages",
+          "lib": {
+            "$path": "src/lib"
+          },
+          "stories": {
+            "$path": "test/stories"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+title = "RoactTemplate"
+
+gitSourceBranch = "main"
+
+[docusaurus]
+organizationName = "Shae A"
+projectName = "roact-template"
+url = "https://corecii.github.io"
+baseUrl = "/roact-template/"
+tagline = "A runtime Instance-to-Roact translator"
