@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="generator" content="Docusaurus v2.0.0-beta.9">
+<title data-react-helmet="true">Select | RoactTemplate</title><meta data-react-helmet="true" property="og:title" content="Select | RoactTemplate"><meta data-react-helmet="true" name="twitter:card" content="summary_large_image"><meta data-react-helmet="true" name="description" content="Selectors to use to change descendent elements.
+
+These selectors **will be slower** than name-based selection. Name selection
+is preferred since we can do fast look-ups to check if any descendant has a
+given name."><meta data-react-helmet="true" property="og:description" content="Selectors to use to change descendent elements.
+
+These selectors **will be slower** than name-based selection. Name selection
+is preferred since we can do fast look-ups to check if any descendant has a
+given name."><meta data-react-helmet="true" property="og:url" content="https://corecii.github.io/roact-template/api/Select"><meta data-react-helmet="true" name="docusaurus_locale" content="en"><meta data-react-helmet="true" name="docusaurus_tag" content="default"><link data-react-helmet="true" rel="canonical" href="https://corecii.github.io/roact-template/api/Select"><link data-react-helmet="true" rel="alternate" href="https://corecii.github.io/roact-template/api/Select" hreflang="en"><link data-react-helmet="true" rel="alternate" href="https://corecii.github.io/roact-template/api/Select" hreflang="x-default"><link rel="stylesheet" href="/roact-template/assets/css/styles.71e0164d.css">
+<link rel="preload" href="/roact-template/assets/js/runtime~main.520ccc7e.js" as="script">
+<link rel="preload" href="/roact-template/assets/js/main.0c5df2b3.js" as="script">
+</head>
+<body>
+<script>!function(){function e(e){document.documentElement.setAttribute("data-theme",e)}var t=function(){var e=null;try{e=localStorage.getItem("theme")}catch(e){}return e}();null!==t?e(t):window.matchMedia("(prefers-color-scheme: dark)").matches?e("dark"):(window.matchMedia("(prefers-color-scheme: light)").matches,e("light"))}()</script><div id="__docusaurus">
+<div><a href="#" class="skipToContent_1oUP">Skip to main content</a></div><nav class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="Navigation bar toggle" class="navbar__toggle clean-btn" type="button" tabindex="0"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/roact-template/"><b class="navbar__title">RoactTemplate</b></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/roact-template/api/">API</a></div><div class="navbar__items navbar__items--right"><a href="https://github.com/Corecii/roact-template" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link"><span>GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_3J9K"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></span></a><div class="toggle_71bT toggle_3Zt9 toggleDisabled_3cF-"><div class="toggleTrack_32Fl" role="button" tabindex="-1"><div class="toggleTrackCheck_3lV7"><span class="toggleIcon_O4iE">🌜</span></div><div class="toggleTrackX_S2yS"><span class="toggleIcon_O4iE">🌞</span></div><div class="toggleTrackThumb_xI_Z"></div></div><input type="checkbox" class="toggleScreenReader_28Tw" aria-label="Switch between dark and light mode"></div><div class="navbar__search"><span aria-label="expand searchbar" role="button" class="search-icon" tabindex="0"></span><input type="search" id="search_input_react" placeholder="Press S to Search..." aria-label="Search" class="navbar__search-input search-bar"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div class="main-wrapper docPageContainer_2Kz0"><div class="docPage_1bdk"><div class="docSidebarContainer_1ykS"><div class="sidebar_15mo"><nav class="menu thin-scrollbar menu_Bmed"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/roact-template/api/RoactTemplate">​Roact​Template</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" href="/roact-template/api/Select">​Select</a></li></ul></nav><button type="button" title="Collapse sidebar" aria-label="Collapse sidebar" class="button button--secondary button--outline collapseSidebarButton_1CGd"><svg width="20" height="20" aria-hidden="true" class="collapseSidebarButtonIcon_3E-R"><g fill="#7a7a7a"><path d="M9.992 10.023c0 .2-.062.399-.172.547l-4.996 7.492a.982.982 0 01-.828.454H1c-.55 0-1-.453-1-1 0-.2.059-.403.168-.551l4.629-6.942L.168 3.078A.939.939 0 010 2.528c0-.548.45-.997 1-.997h2.996c.352 0 .649.18.828.45L9.82 9.472c.11.148.172.347.172.55zm0 0"></path><path d="M19.98 10.023c0 .2-.058.399-.168.547l-4.996 7.492a.987.987 0 01-.828.454h-3c-.547 0-.996-.453-.996-1 0-.2.059-.403.168-.551l4.625-6.942-4.625-6.945a.939.939 0 01-.168-.55 1 1 0 01.996-.997h3c.348 0 .649.18.828.45l4.996 7.492c.11.148.168.347.168.55zm0 0"></path></g></svg></button></div></div><main class="docMainContainer_28N5"><div class="container padding-vert--lg"><div class="row"><div class="col docItemCol_3WPG"><div class="docItemContainer_3XDu"><article><div class="member_qHIL markdown"><div class="tocCollapsible_1PrD theme-doc-toc-mobile tocMobile_3ryM"><button type="button" class="clean-btn tocCollapsibleButton_2O1e">On this page</button></div><header><h1 class="docTitle_1ddc" style="text-decoration:none"><span style="display:inline-block">Select</span></h1><div class="luaClassTags_2Zrs"></div><div>
+<p>Selectors to use to change descendent elements.</p>
+<p>
+  These selectors <strong>will be slower</strong> than name-based selection. Name selection
+  is preferred since we can do fast look-ups to check if any descendant has a
+  given name.
+</p>
+</div></header><h2 class="anchor anchorWithStickyNavbar_31ik" id="functions">Functions<a aria-hidden="true" class="hash-link" href="#functions" title="Direct link to heading">​</a></h2><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="prop"><code style="text-decoration:none">prop</code><a aria-hidden="true" class="hash-link" href="#prop" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/Corecii/roact-template/blob/main/src/lib/Select.lua#L36"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>Select<!-- -->.</code><code class="green_3LnD">prop</code><code>(</code><div class="inset_2cJr"><div><code>prop<!-- -->: </code><code class="blue_2Afy">string</code><code>,</code></div><div><code>value<!-- -->: </code><code class="blue_2Afy">any</code></div></div><code>) → </code><code class="purple__nFc">(</code><code>instance<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Instance" target="_blank" rel="noopener noreferrer">Instance<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code class="purple__nFc">)</code><code class="purple__nFc"> → </code><code class="blue_2Afy">boolean</code></div><div>
+<p>Selects an element according to the value of a property</p>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="name"><code style="text-decoration:none">name</code><a aria-hidden="true" class="hash-link" href="#name" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/Corecii/roact-template/blob/main/src/lib/Select.lua#L56"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>Select<!-- -->.</code><code class="green_3LnD">name</code><code>(</code><code>name<!-- -->: </code><code class="blue_2Afy">string</code><code>) → </code><code class="purple__nFc">(</code><code>instance<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Instance" target="_blank" rel="noopener noreferrer">Instance<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code class="purple__nFc">)</code><code class="purple__nFc"> → </code><code class="blue_2Afy">boolean</code></div><div>
+<p>Selects an element according to its name.</p>
+<p>This is <em>slower</em> than the default <code>["name"] = { changes }</code> syntax.</p>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="class"><code style="text-decoration:none">class</code><a aria-hidden="true" class="hash-link" href="#class" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/Corecii/roact-template/blob/main/src/lib/Select.lua#L63"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>Select<!-- -->.</code><code class="green_3LnD">class</code><code>(</code><code>class<!-- -->: </code><code class="blue_2Afy">string</code><code>) → </code><code class="purple__nFc">(</code><code>instance<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Instance" target="_blank" rel="noopener noreferrer">Instance<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code class="purple__nFc">)</code><code class="purple__nFc"> → </code><code class="blue_2Afy">boolean</code></div><div>
+<p>Selects an element according to its class name.</p>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="prop"><code style="text-decoration:none">prop</code><a aria-hidden="true" class="hash-link" href="#prop" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/Corecii/roact-template/blob/main/src/lib/Select.lua#L76"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>Select<!-- -->.</code><code class="green_3LnD">prop</code><code>(</code><div class="inset_2cJr"><div><code>prop<!-- -->: </code><code class="blue_2Afy">string</code><code>,</code></div><div><code>value<!-- -->: </code><code class="blue_2Afy">any</code></div></div><code>) → </code><code class="purple__nFc">(</code><code>instance<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Instance" target="_blank" rel="noopener noreferrer">Instance<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code class="purple__nFc">)</code><code class="purple__nFc"> → </code><code class="blue_2Afy">boolean</code></div><div>
+<p>Selects an element according to if it <code>:IsA</code> class</p>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="propPattern"><code style="text-decoration:none">propPattern</code><a aria-hidden="true" class="hash-link" href="#propPattern" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/Corecii/roact-template/blob/main/src/lib/Select.lua#L89"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>Select<!-- -->.</code><code class="green_3LnD">propPattern</code><code>(</code><div class="inset_2cJr"><div><code>prop<!-- -->: </code><code class="blue_2Afy">string</code><code>,</code></div><div><code>pattern<!-- -->: </code><code class="blue_2Afy">string</code></div></div><code>) → </code><code class="purple__nFc">(</code><code>instance<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Instance" target="_blank" rel="noopener noreferrer">Instance<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code class="purple__nFc">)</code><code class="purple__nFc"> → </code><code class="blue_2Afy">boolean</code></div><div>
+<p>Selects an element according whether the value of a property matches a pattern.</p>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="namePattern"><code style="text-decoration:none">namePattern</code><a aria-hidden="true" class="hash-link" href="#namePattern" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/Corecii/roact-template/blob/main/src/lib/Select.lua#L107"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>Select<!-- -->.</code><code class="green_3LnD">namePattern</code><code>(</code><code>pattern<!-- -->: </code><code class="blue_2Afy">string</code><code>) → </code><code class="purple__nFc">(</code><code>instance<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Instance" target="_blank" rel="noopener noreferrer">Instance<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code class="purple__nFc">)</code><code class="purple__nFc"> → </code><code class="blue_2Afy">boolean</code></div><div>
+<p>Selects an element according whether the name matches a pattern.</p>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="classPattern"><code style="text-decoration:none">classPattern</code><a aria-hidden="true" class="hash-link" href="#classPattern" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/Corecii/roact-template/blob/main/src/lib/Select.lua#L116"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>Select<!-- -->.</code><code class="green_3LnD">classPattern</code><code>(</code><code>pattern<!-- -->: </code><code class="blue_2Afy">string</code><code>) → </code><code class="purple__nFc">(</code><code>instance<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Instance" target="_blank" rel="noopener noreferrer">Instance<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code class="purple__nFc">)</code><code class="purple__nFc"> → </code><code class="blue_2Afy">boolean</code></div><div>
+<p>Selects an element according whether the class name matches a pattern.</p>
+<p>For example, <code>^Text.+$</code> matches both <code>TextLabel</code> and <code>TextBox</code>.</p>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="attribute"><code style="text-decoration:none">attribute</code><a aria-hidden="true" class="hash-link" href="#attribute" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/Corecii/roact-template/blob/main/src/lib/Select.lua#L129"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>Select<!-- -->.</code><code class="green_3LnD">attribute</code><code>(</code><div class="inset_2cJr"><div><code>attribute<!-- -->: </code><code class="blue_2Afy">string</code><code>,</code></div><div><code>value<!-- -->: </code><code class="blue_2Afy">string</code></div></div><code>) → </code><code class="purple__nFc">(</code><code>instance<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Instance" target="_blank" rel="noopener noreferrer">Instance<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code class="purple__nFc">)</code><code class="purple__nFc"> → </code><code class="blue_2Afy">boolean</code></div><div>
+<p>Selects an element according whether the value of an attribute equals a value.</p>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="tag"><code style="text-decoration:none">tag</code><a aria-hidden="true" class="hash-link" href="#tag" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/Corecii/roact-template/blob/main/src/lib/Select.lua#L141"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>Select<!-- -->.</code><code class="green_3LnD">tag</code><code>(</code><code>tag<!-- -->: </code><code class="blue_2Afy">string</code><code>) → </code><code class="purple__nFc">(</code><code>instance<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Instance" target="_blank" rel="noopener noreferrer">Instance<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code class="purple__nFc">)</code><code class="purple__nFc"> → </code><code class="blue_2Afy">boolean</code></div><div>
+<p>Selects an element according whether its template instance has a tag.</p>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="some"><code style="text-decoration:none">some</code><a aria-hidden="true" class="hash-link" href="#some" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/Corecii/roact-template/blob/main/src/lib/Select.lua#L156"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>Select<!-- -->.</code><code class="green_3LnD">some</code><code>(</code><code>...<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/roact-template/api/RoactTemplate#Selector">Selector</a></code><code>) → </code><code class="purple__nFc">(</code><code>instance<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Instance" target="_blank" rel="noopener noreferrer">Instance<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code class="purple__nFc">)</code><code class="purple__nFc"> → </code><code class="blue_2Afy">boolean</code></div><div>
+<p>Selects an element according whether at least one of the given selectors matches.</p>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="every"><code style="text-decoration:none">every</code><a aria-hidden="true" class="hash-link" href="#every" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/Corecii/roact-template/blob/main/src/lib/Select.lua#L174"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>Select<!-- -->.</code><code class="green_3LnD">every</code><code>(</code><code>...<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/roact-template/api/RoactTemplate#Selector">Selector</a></code><code>) → </code><code class="purple__nFc">(</code><code>instance<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Instance" target="_blank" rel="noopener noreferrer">Instance<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code class="purple__nFc">)</code><code class="purple__nFc"> → </code><code class="blue_2Afy">boolean</code></div><div>
+<p>Selects an element according whether all of the given selectors matches.</p>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="no"><code style="text-decoration:none">no</code><a aria-hidden="true" class="hash-link" href="#no" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/Corecii/roact-template/blob/main/src/lib/Select.lua#L192"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>Select<!-- -->.</code><code class="green_3LnD">no</code><code>(</code><code>selector<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/roact-template/api/RoactTemplate#Selector">Selector</a></code><code>) → </code><code class="purple__nFc">(</code><code>instance<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Instance" target="_blank" rel="noopener noreferrer">Instance<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code class="purple__nFc">)</code><code class="purple__nFc"> → </code><code class="blue_2Afy">boolean</code></div><div>
+<p>Selects an element if the given selector fails for the element.</p>
+</div></div></article></div><details><summary>Show raw api</summary><pre style="max-width:100%;white-space:pre-wrap">{
+    &quot;functions&quot;: [
+        {
+            &quot;name&quot;: &quot;prop&quot;,
+            &quot;desc&quot;: &quot;Selects an element according to the value of a property&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;prop&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;value&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;any&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;(instance: Instance) -&gt; boolean&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 36,
+                &quot;path&quot;: &quot;src/lib/Select.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;name&quot;,
+            &quot;desc&quot;: &quot;Selects an element according to its name.\n\nThis is *slower* than the default `[\&quot;name\&quot;] = { changes }` syntax.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;name&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;(instance: Instance) -&gt; boolean\n&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 56,
+                &quot;path&quot;: &quot;src/lib/Select.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;class&quot;,
+            &quot;desc&quot;: &quot;Selects an element according to its class name.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;class&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;(instance: Instance) -&gt; boolean\n&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 63,
+                &quot;path&quot;: &quot;src/lib/Select.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;prop&quot;,
+            &quot;desc&quot;: &quot;Selects an element according to if it `:IsA` class&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;prop&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;value&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;any&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;(instance: Instance) -&gt; boolean&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 76,
+                &quot;path&quot;: &quot;src/lib/Select.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;propPattern&quot;,
+            &quot;desc&quot;: &quot;Selects an element according whether the value of a property matches a pattern.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;prop&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;pattern&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;(instance: Instance) -&gt; boolean&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 89,
+                &quot;path&quot;: &quot;src/lib/Select.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;namePattern&quot;,
+            &quot;desc&quot;: &quot;Selects an element according whether the name matches a pattern.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;pattern&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;(instance: Instance) -&gt; boolean\n&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 107,
+                &quot;path&quot;: &quot;src/lib/Select.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;classPattern&quot;,
+            &quot;desc&quot;: &quot;Selects an element according whether the class name matches a pattern.\n\nFor example, `^Text.+$` matches both `TextLabel` and `TextBox`.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;pattern&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;(instance: Instance) -&gt; boolean\n&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 116,
+                &quot;path&quot;: &quot;src/lib/Select.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;attribute&quot;,
+            &quot;desc&quot;: &quot;Selects an element according whether the value of an attribute equals a value.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;attribute&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;value&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;(instance: Instance) -&gt; boolean&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 129,
+                &quot;path&quot;: &quot;src/lib/Select.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;tag&quot;,
+            &quot;desc&quot;: &quot;Selects an element according whether its template instance has a tag.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;tag&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;(instance: Instance) -&gt; boolean&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 141,
+                &quot;path&quot;: &quot;src/lib/Select.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;some&quot;,
+            &quot;desc&quot;: &quot;Selects an element according whether at least one of the given selectors matches.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;...&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;Selector&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;(instance: Instance) -&gt; boolean&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 156,
+                &quot;path&quot;: &quot;src/lib/Select.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;every&quot;,
+            &quot;desc&quot;: &quot;Selects an element according whether all of the given selectors matches.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;...&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;Selector&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;(instance: Instance) -&gt; boolean&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 174,
+                &quot;path&quot;: &quot;src/lib/Select.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;no&quot;,
+            &quot;desc&quot;: &quot;Selects an element if the given selector fails for the element.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;selector&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;Selector&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;(instance: Instance) -&gt; boolean&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 192,
+                &quot;path&quot;: &quot;src/lib/Select.lua&quot;
+            }
+        }
+    ],
+    &quot;properties&quot;: [],
+    &quot;types&quot;: [],
+    &quot;name&quot;: &quot;Select&quot;,
+    &quot;desc&quot;: &quot;Selectors to use to change descendent elements.\n\nThese selectors **will be slower** than name-based selection. Name selection\nis preferred since we can do fast look-ups to check if any descendant has a\ngiven name.&quot;,
+    &quot;source&quot;: {
+        &quot;line&quot;: 24,
+        &quot;path&quot;: &quot;src/lib/Select.lua&quot;
+    }
+}</pre></details></div><div class="col col--3"><div class="tableOfContents_35-E thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#types" class="table-of-contents__link toc-highlight">Types</a></li><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#attribute" class="table-of-contents__link toc-highlight">.attribute</a></li><li><a href="#class" class="table-of-contents__link toc-highlight">.class</a></li><li><a href="#classPattern" class="table-of-contents__link toc-highlight">.classPattern</a></li><li><a href="#every" class="table-of-contents__link toc-highlight">.every</a></li><li><a href="#name" class="table-of-contents__link toc-highlight">.name</a></li><li><a href="#namePattern" class="table-of-contents__link toc-highlight">.namePattern</a></li><li><a href="#no" class="table-of-contents__link toc-highlight">.no</a></li><li><a href="#prop" class="table-of-contents__link toc-highlight">.prop</a></li><li><a href="#prop" class="table-of-contents__link toc-highlight">.prop</a></li><li><a href="#propPattern" class="table-of-contents__link toc-highlight">.propPattern</a></li><li><a href="#some" class="table-of-contents__link toc-highlight">.some</a></li><li><a href="#tag" class="table-of-contents__link toc-highlight">.tag</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2022 Shae A. Built with Moonwave and Docusaurus.</div></div></div></footer></div>
+<script src="/roact-template/assets/js/runtime~main.520ccc7e.js"></script>
+<script src="/roact-template/assets/js/main.0c5df2b3.js"></script>
+</body>
+</html>

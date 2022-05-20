@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[882],{82824:function(e){e.exports=JSON.parse('[{"type":"link","href":"/api/RoactTemplate","label":"\u200bRoact\u200bTemplate"},{"type":"link","href":"/api/Select","label":"\u200bSelect"}]')}}]);

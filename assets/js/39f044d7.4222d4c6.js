@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[623],{97868:function(e){e.exports=JSON.parse('{"sourceUrl":"https://github.com/Corecii/roact-template/blob/main","baseUrl":"/roact-template/","classOrder":[],"apiCategories":[]}')}}]);
