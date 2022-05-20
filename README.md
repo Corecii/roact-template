@@ -24,30 +24,13 @@ to replace the included one with the newest version.
 
 ---
 
-## Notes
+RoactTemplate allows you to change descendants of your template interface. You can:
+* Change descendants by their name
+* Assign descendants props and children
+* Wrap descendants in components (see `wrapped` in the docs!)
+* Select descendants to change according to a custom callback or pre-made selectors
 
-Compared to the "convert to Roact *code*" approach, this allows you to easily
-edit UI in Studio even after you start programming it.
-
-RoactTemplate only replaces the *static* parts of your UI. This allows you to
-program the dynamic parts declaratively, while using Roblox's great built-in
-editor for the static parts.
-
-Roact is based on React, which was made for web development. Web development is
-founded on hand-writing structure (HTML) and style (CSS) markup. Roblox, on the
-other hand, is founded on a great editor, and lacks a CSS-equivalent. Because of
-these differences, using Roact typically involves throwing out one of Roblox's
-biggest advantages: its editor. RoactTemplate allows you to use the editor as
-you would before Roact existed, then program your UI declaratively using Roact.
-It's the best of both worlds!
-
-I recommend storing your UI templates as `rbxm` or `rbxmx` files next to or as a
-child of the code that uses the UI templates. You should ideally store each
-interface or component as its own model so that resolving merge conflicts is easier.
-
----
-
-### Quick Example
+### Quick Simple Example
 
 ```lua
 local Roact = require(game.ReplicatedStorage.Packages.Roact)
@@ -69,3 +52,26 @@ local function InventoryApp(props)
     })
 end
 ```
+
+---
+
+## Notes
+
+Compared to the "convert to Roact *code*" approach, this allows you to easily
+edit UI in Studio even after you start programming it.
+
+RoactTemplate only replaces the *static* parts of your UI. This allows you to
+program the dynamic parts declaratively, while using Roblox's great built-in
+editor for the static parts.
+
+Roact is based on React, which was made for web development. Web development is
+founded on hand-writing structure (HTML) and style (CSS) markup. Roblox, on the
+other hand, is founded on a great editor, and lacks a CSS-equivalent. Because of
+these differences, using Roact typically involves throwing out one of Roblox's
+biggest advantages: its editor. RoactTemplate allows you to use the editor as
+you would before Roact existed, then program your UI declaratively using Roact.
+It's the best of both worlds!
+
+I recommend storing your UI templates as `rbxm` or `rbxmx` files next to or as a
+child of the code that uses the UI templates. You should ideally store each
+interface or component as its own model so that resolving merge conflicts is easier.
