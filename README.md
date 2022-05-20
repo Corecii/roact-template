@@ -14,11 +14,13 @@ RoactTemplate = "corecii/roact-template@0.1.0"
 When API dumps become outdated, open your `wally.lock` and remove the `corecii/api-dump-static` section, then run `wally install` again.
 *(in the future, you will be able to use `wally upgrade`, but upgrade is not available yet)*
 
-You can also use the [packaged release model](), but be aware that the internal
+You can also use the [packaged release model](https://github.com/Corecii/roact-template/releases/latest),
+but be aware that the internal
 API dump is *not* updated with every update. When using Wally, the newest API
 dump is fetched automatically on install. When using the pre-packages model, the
 latest API dump is *not* fetched automatically. You can download the latest API
-dump [here]() to replace the included one with the newest version.
+dump [here](https://github.com/Corecii/api-dump-static/releases/latest)
+to replace the included one with the newest version.
 
 ---
 
