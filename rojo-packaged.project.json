@@ -1,0 +1,12 @@
+{
+  "name": "packaged",
+  "tree": {
+    "$path": "src/packaged",
+    "packages": {
+      "$path": "Packages",
+      "lib": {
+        "$path": "src/lib"
+      }
+    }
+  }
+}

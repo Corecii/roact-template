@@ -2,7 +2,7 @@ name: build
 on: [push, pull_request]
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Check out Repository
         uses: actions/checkout@v2
@@ -13,11 +13,14 @@ jobs:
           version: "^1.0.0"
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Pull Packages
-        run: wally install
+      - name: Pull Packages (Manually)
+        run: |
+          # We do it this way so that it's easier for non-wally users to update the static API dump
+          mkdir Packages;
+          git clone --depth 1 --branch latest-v1 --single-branch https://github.com/Corecii/api-dump-static  ./Packages/ApiDumpStatic
 
       - name: Build Packaged Library
-        run: rojo build -o packaged.rbxm packaged.project.json
+        run: rojo build -o packaged.rbxm rojo-packaged.project.json
         
       - name: Archive Packaged Library
         uses: actions/upload-artifact@v2
