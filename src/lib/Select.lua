@@ -65,7 +65,7 @@ function Select.class(class: string): (instance: Instance) -> boolean
 end
 
 --[=[
-	@function prop
+	@function isA
 	@within Select
 	@param prop string
 	@param value any
