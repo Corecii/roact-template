@@ -26,13 +26,13 @@ jobs:
           cd 
 
       - name: Build Packaged Library
-        run: rojo build -o packaged.rbxm rojo-packaged.project.json
+        run: rojo build -o RoactTemplate.rbxm rojo-packaged.project.json
         
       - name: Archive Packaged Library
         uses: actions/upload-artifact@v2
         with:
           name: Library (packaged with dependencies)
-          path: packaged.rbxm
+          path: RoactTemplate.rbxm
 
   publish:
     name: Upload release artifacts
@@ -57,6 +57,6 @@ jobs:
           ls -l
       
       - name: Upload release artifacts
-        run: gh release upload ${{ env.TAG }} packaged.rbxm
+        run: gh release upload ${{ env.TAG }} RoactTemplate.rbxm
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

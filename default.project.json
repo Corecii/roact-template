@@ -1,12 +1,6 @@
 {
-  "name": "lib",
+  "name": "RoactTemplate",
   "tree": {
-    "$path": "src/lib",
-    "robloxVersion": {
-      "$path": "roblox-version.txt"
-    },
-    "packageVersion": {
-      "$path": "package-version.txt"
-    }
+    "$path": "src/lib"
   }
 }

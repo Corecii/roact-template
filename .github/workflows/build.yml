@@ -20,10 +20,10 @@ jobs:
           git clone --depth 1 --branch latest-v1 --single-branch https://github.com/Corecii/api-dump-static  ./Packages/ApiDumpStatic
 
       - name: Build Packaged Library
-        run: rojo build -o packaged.rbxm rojo-packaged.project.json
+        run: rojo build -o RoactTemplate.rbxm rojo-packaged.project.json
         
       - name: Archive Packaged Library
         uses: actions/upload-artifact@v2
         with:
           name: Library (packaged with dependencies)
-          path: packaged.rbxm
+          path: RoactTemplate.rbxm

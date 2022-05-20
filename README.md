@@ -16,8 +16,8 @@ When API dumps become outdated, open your `wally.lock` and remove the `corecii/a
 
 You can also use the [packaged release model](https://github.com/Corecii/roact-template/releases/latest),
 but be aware that the internal
-API dump is *not* updated with every update. When using Wally, the newest API
-dump is fetched automatically on install. When using the pre-packages model, the
+API dump is *not* updated with every Roblox update. When using Wally, the newest API
+dump is fetched automatically on install. When using the pre-packaged model, the
 latest API dump is *not* fetched automatically. You can download the latest API
 dump [here](https://github.com/Corecii/api-dump-static/releases/latest)
 to replace the included one with the newest version.
