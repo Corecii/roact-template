@@ -31,7 +31,7 @@ jobs:
       - name: Archive Packaged Library
         uses: actions/upload-artifact@v2
         with:
-          name: Library (packaged with dependencies)
+          name: RoactTemplatePackaged
           path: RoactTemplate.rbxm
 
   publish:
@@ -57,6 +57,6 @@ jobs:
           ls -l
       
       - name: Upload release artifacts
-        run: gh release upload ${{ env.TAG }} RoactTemplate.rbxm
+        run: gh release upload ${{ env.TAG }} RoactTemplatePackaged/RoactTemplate.rbxm
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
