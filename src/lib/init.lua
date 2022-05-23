@@ -24,13 +24,21 @@ export type Changes = { [string]: any }
 export type SelectorCallback = (instance: Instance) -> boolean
 export type Selector = string | SelectorCallback
 
-export type TemplateItem = {
-	type: "element" | "fragmentSingle",
+export type TemplateItemElement = {
+	type: "element",
+	singleFragment: boolean?,
 	class: string,
 	instance: Instance,
 	props: { [string]: any },
 	children: { [string]: TemplateItem },
 }
+
+export type TemplateItemFragment = {
+	type: "fragment",
+	children: { [string]: TemplateItem },
+}
+
+export type TemplateItem = TemplateItemElement | TemplateItemFragment
 
 --[=[
 	@class RoactTemplate
@@ -281,9 +289,22 @@ function RoactTemplate.templateFromInstance(instance: Instance): TemplateItem
 		local props = RoactTemplate.propertiesFromInstance(item.instance)
 		table.freeze(props)
 
-		if item.parent[item.instance.Name] then
-			item.parent[item.instance.Name .. " " .. HttpService:GenerateGUID()] = table.freeze({
-				type = "fragmentSingle" :: "fragmentSingle",
+		local existingItem = item.parent[item.instance.Name]
+		if existingItem then
+			if existingItem.type ~= "fragment" then
+				item.parent[item.instance.Name] = table.freeze({
+					type = "fragment" :: "fragment",
+					children = {
+						[item.instance.Name] = existingItem,
+					},
+				})
+
+				item.parent[item.instance.Name] = item.parent[item.instance.Name]
+			end
+
+			existingItem.children[item.instance.Name .. " " .. HttpService:GenerateGUID()] = table.freeze({
+				type = "element" :: "element",
+				singleFragment = true,
 				class = item.instance.ClassName,
 				instance = item.instance,
 				props = props,
@@ -320,7 +341,7 @@ end
 
 local function applySelectors(
 	Roact: Roact,
-	template: TemplateItem,
+	template: TemplateItemElement,
 	callSelectors: { [SelectorCallback]: Changes }?,
 	nameSelectors: { [string]: Changes }?
 ): ({ [string]: any }, { [string]: any })
@@ -363,6 +384,17 @@ local function elementFromTemplate(
 	callSelectors: { [SelectorCallback]: any }?,
 	nameSelectors: { [string]: any }?
 ): any
+	if template.type == "fragment" then
+		local children = {}
+
+		for name, child in pairs(template.children) do
+			children[name] = elementFromTemplate(Roact, child, callSelectors, nameSelectors)
+		end
+
+		return Roact.createFragment(children)
+	end
+	assert(template.type == "element", "always") -- typechecker assert
+
 	local newProps, newChildren = applySelectors(Roact, template, callSelectors, nameSelectors)
 
 	local element
@@ -385,12 +417,10 @@ local function elementFromTemplate(
 		element = Roact.createElement(template.class, props, children)
 	end
 
-	if template.type == "fragmentSingle" then
+	if template.singleFragment then
 		element = Roact.createFragment({
 			[template.instance.Name] = element,
 		})
-	elseif template.type ~= "element" then
-		error("Unknown template type '" .. tostring(template.type) .. "'")
 	end
 
 	return element
