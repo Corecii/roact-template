@@ -19,8 +19,7 @@ type Roact = {
 type Element = any
 type Component = any
 
-export type ChangesCallback = (props: { [string]: any }, children: { [string]: any }) -> ()
-export type Changes = { [string]: any } | ChangesCallback
+export type Changes = { [string]: any }
 
 export type SelectorCallback = (instance: Instance) -> boolean
 export type Selector = string | SelectorCallback
@@ -72,7 +71,7 @@ RoactTemplate.Select = require(script.Select)
 ]=]
 
 --[=[
-	@type ChangesTable { [any]: any } @within RoactTemplate
+	@type Changes { [any]: any }
 	@within RoactTemplate
 
 	Represents properties to overwrite on an element.
@@ -82,18 +81,6 @@ RoactTemplate.Select = require(script.Select)
 	You can use `[Roact.Children] = {}` to add children to an element. If you
 	want to remove a child you need to set it to `RoactTemplate.None` or use a
 	`ChangesCallback` to mutate the children list.
-]=]
-
---[=[
-	@type ChangesCallback (props: { [any]: any }, children: { [string]: any}) -> ()
-	@within RoactTemplate
-
-	A callback that mutates the props and children tables.
-]=]
-
---[=[
-	@type Changes ChangesTable | ChangesCallback
-	@within RoactTemplate
 ]=]
 
 --[=[
@@ -109,7 +96,7 @@ end
 
 local Wrap = newproxy(true)
 getmetatable(Wrap).__tostring = function()
-	return "<Wrap>"
+	return "<RoactTemplate.Wrap>"
 end
 
 export type None = typeof(RoactTemplate.None)
@@ -322,71 +309,52 @@ function RoactTemplate.templateFromInstance(instance: Instance): TemplateItem
 	return rootElement
 end
 
-local function applyChanges(changes: Changes, props: { [any]: any }, children: { [string]: any }): ()
-	if typeof(changes) == "table" then
-		for key, value in pairs(changes) do
-			if value == RoactTemplate.None then
-				value = nil
-			end
-			props[key] = value
+local function merge(into: { [any]: any }, from: { [any]: any }, none: any?)
+	for key, value in pairs(from) do
+		if value == none then
+			value = nil
 		end
-	elseif typeof(changes) == "function" then
-		changes(props, children)
-	else
-		error("Unknown change type " .. typeof(changes) .. " (expected { [string]: any } | function)")
+		into[key] = value
 	end
 end
 
 local function applySelectors(
 	Roact: Roact,
 	template: TemplateItem,
-	children: { [string]: any },
 	callSelectors: { [SelectorCallback]: Changes }?,
 	nameSelectors: { [string]: Changes }?
-)
+): ({ [string]: any }, { [string]: any })
 	if not (nameSelectors or callSelectors) then
-		return table.clone(template.props)
+		return table.clone(template.props), {}
 	end
 
-	local props
+	local newProps = {}
+	local newChildren = {}
 
 	local changesByName = nameSelectors and nameSelectors[template.instance.Name] or nil
 	if changesByName then
-		props = props or table.clone(template.props)
-		applyChanges(changesByName, props, children)
+		merge(newProps, changesByName)
 
-		if props[Roact.Children] then
-			for key, value in pairs(props[Roact.Children]) do
-				if value == RoactTemplate.None then
-					value = nil
-				end
-				children[key] = value
-			end
-			props[Roact.Children] = nil
+		if newProps[Roact.Children] then
+			merge(newProps[Roact.Children], newChildren)
+			newProps[Roact.Children] = nil
 		end
 	end
 
 	if callSelectors then
 		for selector, changes in pairs(callSelectors) do
 			if selector(template.instance) then
-				props = props or table.clone(template.props)
-				applyChanges(changes, props, children)
+				merge(newProps, changes)
 
-				if props[Roact.Children] then
-					for key, value in pairs(props[Roact.Children]) do
-						if value == RoactTemplate.None then
-							value = nil
-						end
-						children[key] = value
-					end
-
-					props[Roact.Children] = nil
+				if newProps[Roact.Children] then
+					merge(newProps[Roact.Children], newChildren)
+					newProps[Roact.Children] = nil
 				end
 			end
 		end
 	end
 
-	return props or table.clone(template.props)
+	return newProps, newChildren
 end
 
 local function elementFromTemplate(
@@ -395,19 +363,25 @@ local function elementFromTemplate(
 	callSelectors: { [SelectorCallback]: any }?,
 	nameSelectors: { [string]: any }?
 ): any
-	local children = {}
-	for name, child in pairs(template.children) do
-		children[name] = elementFromTemplate(Roact, child, callSelectors, nameSelectors)
-	end
-
-	local props = applySelectors(Roact, template, children, callSelectors, nameSelectors)
+	local newProps, newChildren = applySelectors(Roact, template, callSelectors, nameSelectors)
 
 	local element
-	if props[Wrap] then
-		element = Roact.createElement(props[Wrap], {
+	if newProps[Wrap] then
+		element = Roact.createElement(newProps[Wrap], {
 			template = RoactTemplate.componentFromTemplate(Roact, template),
 		})
 	else
+		local props = table.clone(template.props)
+		merge(props, newProps)
+
+		local children = {}
+		for name, child in pairs(template.children) do
+			if newChildren[name] == nil then
+				children[name] = elementFromTemplate(Roact, child, callSelectors, nameSelectors)
+			end
+		end
+		merge(children, newChildren, RoactTemplate.None)
+
 		element = Roact.createElement(template.class, props, children)
 	end
 

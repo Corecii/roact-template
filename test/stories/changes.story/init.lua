@@ -6,18 +6,18 @@ return function(target)
 
 	local function Example()
 		return Roact.createElement(ExampleTemplate, {
-			TitleLabel = function(props, children)
-				props.Text = "Example Title Set With Changes"
-				children.Gradient = Roact.createElement("UIGradient", {
-					Color = ColorSequence.new(Color3.fromRGB(255, 255, 255), Color3.fromRGB(200, 200, 200)),
-				})
-				props[Roact.Children] = {
+			TitleLabel = {
+				Text = "Example Title Set With Changes",
+				[Roact.Children] = {
+					Gradient = Roact.createElement("UIGradient", {
+						Color = ColorSequence.new(Color3.fromRGB(255, 255, 255), Color3.fromRGB(200, 200, 200)),
+					}),
 					UIStroke = Roact.createElement("UIStroke", {
 						Thickness = 2,
 						Color = Color3.fromRGB(200, 200, 200),
 					}),
-				}
-			end,
+				},
+			},
 			ItemNameLabel = { Text = "Some Item" },
 		})
 	end
