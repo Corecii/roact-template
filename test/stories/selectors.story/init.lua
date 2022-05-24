@@ -1,3 +1,7 @@
+--[[
+	All selectors should match and give their associated instances a child
+	folder.
+]]
 return function(target)
 	local Roact = require(script.Parent.Parent.Roact)
 	local RoactTemplate = require(script.Parent.Parent.lib)

@@ -1,3 +1,6 @@
+--[[
+	An instance-for-instance recreation of the template instance should appear.
+]]
 return function(target)
 	local Roact = require(script.Parent.Parent.Roact)
 	local RoactTemplate = require(script.Parent.Parent.lib)

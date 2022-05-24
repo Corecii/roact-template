@@ -1,3 +1,6 @@
+--[[
+	Clicked count should go up when clicked, and render count should not.
+]]
 return function(target)
 	local Roact = require(script.Parent.Parent.Roact)
 	local RoactTemplate = require(script.Parent.Parent.lib)

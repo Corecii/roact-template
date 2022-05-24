@@ -1,3 +1,11 @@
+--[[
+	This should:
+	* Make the root frame transparent and blue-green
+	* Set the title's text
+	* Add effects to the title (gradient and ui stroke)
+	* Set all ItemNameLabels' Texts
+	* Modify items to have a background color based on their existing color
+]]
 return function(target)
 	local Roact = require(script.Parent.Parent.Roact)
 	local RoactTemplate = require(script.Parent.Parent.lib)
@@ -26,8 +34,8 @@ return function(target)
 			Item = function(instance)
 				return {
 					BackgroundColor3 = Color3.new(
-						instance.BackgroundColor3.R * 0.5,
-						instance.BackgroundColor3.G * 0.8,
+						instance.BackgroundColor3.R * 0.8,
+						instance.BackgroundColor3.G * 0.5,
 						instance.BackgroundColor3.B * 0.8
 					),
 				}

@@ -71,7 +71,7 @@ local RoactTemplate = {}
 RoactTemplate.Select = require(script.Select)
 
 --[=[
-	@type Selector string | (instance: Instance) -> boolean
+	@type Selector string | Root | (instance: Instance) -> boolean
 	@within RoactTemplate
 
 	Used to determine whether a change should apply to an instance. You can
@@ -82,17 +82,29 @@ RoactTemplate.Select = require(script.Select)
 ]=]
 
 --[=[
-	@type Changes { [any]: any } | (instance: Instance) -> { [any]: any }
+	@type Changes ChangesTable | ChangesCallback
+	@within RoactTemplate
+]=]
+
+--[=[
+	@type ChangesTable { [any]: any }
 	@within RoactTemplate
 
 	Represents properties to overwrite on an element.
 
-	You can use `RoactTemplate.None` to set a property to nil.
+	* You can use `RoactTemplate.None` to set a property to nil.
+	* You can use `[Roact.Children] = {}` to add children to an element.
+	* If you want to remove a child you need to set it to `RoactTemplate.None`.
+	* Children with the same name are placed in a fragment with that name.
+	  You can remove them all at once -- or overwrite them all at once -- by
+	  setting the child to None or some element.
+]=]
 
-	You can use `[Roact.Children] = {}` to add children to an element. If you
-	want to remove a child you need to set it to `RoactTemplate.None`.
+--[=[
+	@type ChangesCallback (templateInstance: Instance) -> ChangesTable
+	@within RoactTemplate
 
-	If you use a function here, it will be called on the template instance. This
+	A function that is called on a template instance and returns changes. This
 	allows you to make changes dependent upon the instance's existing
 	properties, attributes, etc. For example, you can use this to darken the
 	color that was set in the studio editor.
@@ -102,24 +114,32 @@ RoactTemplate.Select = require(script.Select)
 	local ButtonTemplate = RoactTemplate.fromInstance(SomeButtonInstance)
 
 	local function Button()
-		return Roact.createElement(ButtonTemplate, {
-			Button = function(templateInstance)
-				if mouseIsOverInstance() then
-					-- Darken the button if the mouse is over it!
-					return {
-						BackgroundColor3 = Color3.new(
-							templateInstance.BackgroundColor3.R * 0.8,
-							templateInstance.BackgroundColor3.G * 0.8,
-							templateInstance.BackgroundColor3.B * 0.8
-						),
-					}
-				else
-					return {}
-				end
-			end,
-		})
+	    return Roact.createElement(ButtonTemplate, {
+	        Button = function(templateInstance)
+	            if mouseIsOverInstance() then
+	                -- Darken the button if the mouse is over it!
+	                return {
+	                    BackgroundColor3 = Color3.new(
+	                        templateInstance.BackgroundColor3.R * 0.8,
+	                        templateInstance.BackgroundColor3.G * 0.8,
+	                        templateInstance.BackgroundColor3.B * 0.8
+	                    ),
+	                }
+	            else
+	                return {}
+	            end
+	        end,
+	    })
 	end
 	```
+
+	:::caution
+
+	You should not modify `instance` or its children. It won't directly affect
+	the render, since `instance` is just a template, but it may affect future
+	renders that depend on the instance.
+
+	:::
 ]=]
 
 --[=[
@@ -141,7 +161,8 @@ getmetatable(Wrap).__tostring = function()
 end
 
 --[=[
-	@prop Root Root @within RoactTemplate
+	@prop Root Root
+	@within RoactTemplate
 
 	A special selector representing the root instance of a template.
 
@@ -273,6 +294,11 @@ end
 	See `fromInstance` for more info.
 ]=]
 function RoactTemplate.componentFromInstance(Roact: Roact, instance: Instance): ({ [Selector]: Changes }) -> Element
+	if typeof(instance) ~= "Instance" then
+		warn("instance object related to the following error message:", instance) -- allows user inspection
+		error("Expected an Instance for instance argument, got " .. typeof(instance))
+	end
+
 	local template = RoactTemplate.templateFromInstance(instance)
 
 	return RoactTemplate.componentFromTemplate(Roact, template)
@@ -361,7 +387,7 @@ function RoactTemplate.templateFromInstance(instance: Instance): TemplateItem
 					},
 				})
 
-				item.parent[item.instance.Name] = item.parent[item.instance.Name]
+				existingItem = item.parent[item.instance.Name]
 			end
 
 			existingItem.children[item.instance.Name .. " " .. HttpService:GenerateGUID()] = table.freeze({
@@ -416,15 +442,15 @@ local function applySelectors(
 	local newChildren = {}
 
 	local function apply(changes: Changes)
-		if type(changes) == "function" then
+		if typeof(changes) == "function" then
 			local changesResult = changes(template.instance)
 
-			if type(changesResult) ~= "table" then
-				local sourceId, line, name = debug.info(changesResult, "sln")
+			if typeof(changesResult) ~= "table" then
+				local sourceId, line, name = debug.info(changes, "sln")
 				warn("Changes object related to the following error message:", changes) -- allows user inspection
 				error(
 					string.format(
-						"Expected a table { [string | Roact.Children]: any } from ChangesCallback, got %s. Callback: %s:%s: %s",
+						"Expected a table from ChangesCallback, got %s. Callback: %s:%s: %s",
 						typeof(changesResult),
 						tostring(sourceId or "[unknown]"),
 						tostring(line or "unknown"),
@@ -432,21 +458,21 @@ local function applySelectors(
 					)
 				)
 			end
+
+			changes = changesResult
 		end
 
-		if type(changes) ~= "table" then
+		if typeof(changes) ~= "table" then
 			warn("Changes object related to the following error message:", changes) -- allows user inspection
-			error(
-				"Expected a table { [string | Roact.Children]: any } or function for Changes, got " .. typeof(changes)
-			)
+			error("Expected a table or function for Changes, got " .. typeof(changes))
 		end
 
-		assert(type(changes) == "table", "always") -- typechecker assert
+		assert(typeof(changes) == "table", "always") -- typechecker assert
 
 		merge(newProps, changes)
 
 		if newProps[Roact.Children] then
-			merge(newProps[Roact.Children], newChildren)
+			merge(newChildren, newProps[Roact.Children])
 			newProps[Roact.Children] = nil
 		end
 	end
@@ -530,7 +556,7 @@ function RoactTemplate.elementFromTemplate(
 	template: TemplateItem,
 	selectors: { [Selector]: Changes }?
 ): Element
-	if selectors ~= nil and type(selectors) ~= "table" then
+	if selectors ~= nil and typeof(selectors) ~= "table" then
 		warn("selectors object related to the following error message:", selectors) -- allows user inspection
 		error("Expected a table { [Selector]: Changes } or nil for selectors, got " .. typeof(selectors))
 	end
@@ -550,8 +576,16 @@ function RoactTemplate.elementFromTemplate(
 				slowSelectors[key] = value
 			else
 				error(
-					("Unknown selector type " .. typeof(key) .. " (expected string | function | RoactTemplate.Root)\n")
-						.. "  Are you trying to specify props for the root instance of the template? Try the following:\n"
+					("Unknown Selector type " .. typeof(key) .. " (expected string | function | RoactTemplate.Root)\n")
+						.. "  Are you trying to specify props for the root instance of the template? Try the following instead:\n"
+						.. "  [RoactTemplate.Root] = { YourProps = 'Your Values' }"
+				)
+			end
+
+			if typeof(value) ~= "table" and typeof(value) ~= "function" then
+				error(
+					("Unknown Changes type " .. typeof(value) .. " (expected table | function)\n")
+						.. "  Are you trying to specify props for the root instance of the template? Try the following instead:\n"
 						.. "  [RoactTemplate.Root] = { YourProps = 'Your Values' }"
 				)
 			end
