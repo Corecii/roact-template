@@ -22,11 +22,12 @@ type Component = any
 export type Changes = { [string]: any }
 
 export type SelectorCallback = (instance: Instance) -> boolean
-export type Selector = string | SelectorCallback
+export type Selector = string | SelectorCallback | Root
 
 export type TemplateItemElement = {
 	type: "element",
 	singleFragment: boolean?,
+	isRoot: boolean?,
 	class: string,
 	instance: Instance,
 	props: { [string]: any },
@@ -102,12 +103,43 @@ getmetatable(RoactTemplate.None).__tostring = function()
 	return "<RoactTemplate.None>"
 end
 
+export type None = typeof(RoactTemplate.None)
+
 local Wrap = newproxy(true)
 getmetatable(Wrap).__tostring = function()
 	return "<RoactTemplate.Wrap>"
 end
 
-export type None = typeof(RoactTemplate.None)
+--[=[
+	@prop Root Root @within RoactTemplate
+
+	A special selector representing the root instance of a template.
+
+	This is an easy alternative to specifying the root instance's name, which
+	may not stay consistent.
+
+	For example:
+	```lua
+	local function ButtonFromTemplate(instance)
+	    -- instance can be any Button object
+	    local Button = RoactTemplate.fromInstance(instance)
+	    return function(props)
+	        return Roact.createElement(Button, {
+	            -- we don't know the name of the button, so we can use Root instead.
+	            [RoactTemplate.Root] = {
+	                [Roact.Event.Activated] = props.onActivated,
+	            },
+	        })
+	    end
+	end
+	```
+]=]
+RoactTemplate.Root = newproxy(true)
+getmetatable(RoactTemplate.Root).__tostring = function()
+	return "<RoactTemplate.Root>"
+end
+
+export type Root = typeof(RoactTemplate.Root)
 
 --[=[
 	Creates a component given an instance.
@@ -313,6 +345,7 @@ function RoactTemplate.templateFromInstance(instance: Instance): TemplateItem
 		else
 			item.parent[item.instance.Name] = table.freeze({
 				type = "element" :: "element",
+				isRoot = item.instance == instance,
 				class = item.instance.ClassName,
 				instance = item.instance,
 				props = props,
@@ -342,19 +375,18 @@ end
 local function applySelectors(
 	Roact: Roact,
 	template: TemplateItemElement,
-	callSelectors: { [SelectorCallback]: Changes }?,
-	nameSelectors: { [string]: Changes }?
+	slowSelectors: { [SelectorCallback]: Changes }?,
+	fastSelectors: { [string | Root]: Changes }?
 ): ({ [string]: any }, { [string]: any })
-	if not (nameSelectors or callSelectors) then
+	if not (fastSelectors or slowSelectors) then
 		return table.clone(template.props), {}
 	end
 
 	local newProps = {}
 	local newChildren = {}
 
-	local changesByName = nameSelectors and nameSelectors[template.instance.Name] or nil
-	if changesByName then
-		merge(newProps, changesByName)
+	local function apply(changes: Changes)
+		merge(newProps, changes)
 
 		if newProps[Roact.Children] then
 			merge(newProps[Roact.Children], newChildren)
@@ -362,15 +394,20 @@ local function applySelectors(
 		end
 	end
 
-	if callSelectors then
-		for selector, changes in pairs(callSelectors) do
-			if selector(template.instance) then
-				merge(newProps, changes)
+	if fastSelectors then
+		if fastSelectors[RoactTemplate.Root] and template.isRoot then
+			apply(fastSelectors[RoactTemplate.Root])
+		end
 
-				if newProps[Roact.Children] then
-					merge(newProps[Roact.Children], newChildren)
-					newProps[Roact.Children] = nil
-				end
+		if fastSelectors[template.instance.Name] then
+			apply(fastSelectors[template.instance.Name])
+		end
+	end
+
+	if slowSelectors then
+		for selector, changes in pairs(slowSelectors) do
+			if selector(template.instance) then
+				apply(changes)
 			end
 		end
 	end
@@ -381,21 +418,21 @@ end
 local function elementFromTemplate(
 	Roact: Roact,
 	template: TemplateItem,
-	callSelectors: { [SelectorCallback]: any }?,
-	nameSelectors: { [string]: any }?
+	slowSelectors: { [SelectorCallback]: any }?,
+	fastSelectors: { [string | Root]: any }?
 ): any
 	if template.type == "fragment" then
 		local children = {}
 
 		for name, child in pairs(template.children) do
-			children[name] = elementFromTemplate(Roact, child, callSelectors, nameSelectors)
+			children[name] = elementFromTemplate(Roact, child, slowSelectors, fastSelectors)
 		end
 
 		return Roact.createFragment(children)
 	end
 	assert(template.type == "element", "always") -- typechecker assert
 
-	local newProps, newChildren = applySelectors(Roact, template, callSelectors, nameSelectors)
+	local newProps, newChildren = applySelectors(Roact, template, slowSelectors, fastSelectors)
 
 	local element
 	if newProps[Wrap] then
@@ -409,7 +446,7 @@ local function elementFromTemplate(
 		local children = {}
 		for name, child in pairs(template.children) do
 			if newChildren[name] == nil then
-				children[name] = elementFromTemplate(Roact, child, callSelectors, nameSelectors)
+				children[name] = elementFromTemplate(Roact, child, slowSelectors, fastSelectors)
 			end
 		end
 		merge(children, newChildren, RoactTemplate.None)

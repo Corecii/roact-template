@@ -6,6 +6,10 @@ return function(target)
 
 	local function Example()
 		return Roact.createElement(ExampleTemplate, {
+			[RoactTemplate.Root] = {
+				BackgroundTransparency = 0.5,
+				BackgroundColor3 = Color3.fromRGB(0, 255, 255),
+			},
 			TitleLabel = {
 				Text = "Example Title Set With Changes",
 				[Roact.Children] = {
