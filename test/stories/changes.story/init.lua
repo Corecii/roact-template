@@ -23,6 +23,15 @@ return function(target)
 				},
 			},
 			ItemNameLabel = { Text = "Some Item" },
+			Item = function(instance)
+				return {
+					BackgroundColor3 = Color3.new(
+						instance.BackgroundColor3.R * 0.5,
+						instance.BackgroundColor3.G * 0.8,
+						instance.BackgroundColor3.B * 0.8
+					),
+				}
+			end,
 		})
 	end
 

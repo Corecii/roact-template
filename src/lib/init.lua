@@ -19,7 +19,9 @@ type Roact = {
 type Element = any
 type Component = any
 
-export type Changes = { [string]: any }
+export type ChangesCallback = (instance: Instance) -> { [any]: any }
+export type ChangesTable = { [any]: any }
+export type Changes = ChangesCallback | ChangesTable
 
 export type SelectorCallback = (instance: Instance) -> boolean
 export type Selector = string | SelectorCallback | Root
@@ -80,7 +82,7 @@ RoactTemplate.Select = require(script.Select)
 ]=]
 
 --[=[
-	@type Changes { [any]: any }
+	@type Changes { [any]: any } | (instance: Instance) -> { [any]: any }
 	@within RoactTemplate
 
 	Represents properties to overwrite on an element.
@@ -88,8 +90,36 @@ RoactTemplate.Select = require(script.Select)
 	You can use `RoactTemplate.None` to set a property to nil.
 
 	You can use `[Roact.Children] = {}` to add children to an element. If you
-	want to remove a child you need to set it to `RoactTemplate.None` or use a
-	`ChangesCallback` to mutate the children list.
+	want to remove a child you need to set it to `RoactTemplate.None`.
+
+	If you use a function here, it will be called on the template instance. This
+	allows you to make changes dependent upon the instance's existing
+	properties, attributes, etc. For example, you can use this to darken the
+	color that was set in the studio editor.
+
+	For example:
+	```lua
+	local ButtonTemplate = RoactTemplate.fromInstance(SomeButtonInstance)
+
+	local function Button()
+		return Roact.createElement(ButtonTemplate, {
+			Button = function(templateInstance)
+				if mouseIsOverInstance() then
+					-- Darken the button if the mouse is over it!
+					return {
+						BackgroundColor3 = Color3.new(
+							templateInstance.BackgroundColor3.R * 0.8,
+							templateInstance.BackgroundColor3.G * 0.8,
+							templateInstance.BackgroundColor3.B * 0.8
+						),
+					}
+				else
+					return {}
+				end
+			end,
+		})
+	end
+	```
 ]=]
 
 --[=[
@@ -386,6 +416,33 @@ local function applySelectors(
 	local newChildren = {}
 
 	local function apply(changes: Changes)
+		if type(changes) == "function" then
+			local changesResult = changes(template.instance)
+
+			if type(changesResult) ~= "table" then
+				local sourceId, line, name = debug.info(changesResult, "sln")
+				warn("Changes object related to the following error message:", changes) -- allows user inspection
+				error(
+					string.format(
+						"Expected a table { [string | Roact.Children]: any } from ChangesCallback, got %s. Callback: %s:%s: %s",
+						typeof(changesResult),
+						tostring(sourceId or "[unknown]"),
+						tostring(line or "unknown"),
+						tostring(name or "unknown")
+					)
+				)
+			end
+		end
+
+		if type(changes) ~= "table" then
+			warn("Changes object related to the following error message:", changes) -- allows user inspection
+			error(
+				"Expected a table { [string | Roact.Children]: any } or function for Changes, got " .. typeof(changes)
+			)
+		end
+
+		assert(type(changes) == "table", "always") -- typechecker assert
+
 		merge(newProps, changes)
 
 		if newProps[Roact.Children] then
@@ -473,33 +530,42 @@ function RoactTemplate.elementFromTemplate(
 	template: TemplateItem,
 	selectors: { [Selector]: Changes }?
 ): Element
-	local callSelectors: { [SelectorCallback]: any }? = nil
-	local nameSelectors: { [string]: any }? = nil
+	if selectors ~= nil and type(selectors) ~= "table" then
+		warn("selectors object related to the following error message:", selectors) -- allows user inspection
+		error("Expected a table { [Selector]: Changes } or nil for selectors, got " .. typeof(selectors))
+	end
+
+	local slowSelectors: { [SelectorCallback]: any }? = nil
+	local fastSelectors: { [string | Root]: any }? = nil
 	if selectors ~= nil then
-		callSelectors = {}
-		nameSelectors = {}
-		assert(nameSelectors, "always") -- typechecker assert
-		assert(callSelectors, "always") -- typechecker assert
+		slowSelectors = {}
+		fastSelectors = {}
+		assert(fastSelectors, "always") -- typechecker assert
+		assert(slowSelectors, "always") -- typechecker assert
 
 		for key, value in pairs(selectors) do
-			if typeof(key) == "string" then
-				nameSelectors[key] = value
+			if typeof(key) == "string" or key == RoactTemplate.Root then
+				fastSelectors[key] = value
 			elseif typeof(key) == "function" then
-				callSelectors[key] = value
+				slowSelectors[key] = value
 			else
-				error("Unknown selector type " .. typeof(key) .. " (expected string | function)")
+				error(
+					("Unknown selector type " .. typeof(key) .. " (expected string | function | RoactTemplate.Root)\n")
+						.. "  Are you trying to specify props for the root instance of the template? Try the following:\n"
+						.. "  [RoactTemplate.Root] = { YourProps = 'Your Values' }"
+				)
 			end
 		end
 
-		if next(callSelectors) == nil then
-			callSelectors = nil
+		if next(slowSelectors) == nil then
+			slowSelectors = nil
 		end
-		if next(nameSelectors) == nil then
-			nameSelectors = nil
+		if next(fastSelectors) == nil then
+			fastSelectors = nil
 		end
 	end
 
-	return elementFromTemplate(Roact, template, callSelectors, nameSelectors)
+	return elementFromTemplate(Roact, template, slowSelectors, fastSelectors)
 end
 
 --[=[
