@@ -9,5 +9,5 @@ dependencies = []
 
 [[package]]
 name = "corecii/roact-template"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [["ApiDumpStatic", "corecii/api-dump-static@1.0.5270372"]]

@@ -8,7 +8,7 @@ Install with [wally](https://wally.run):
 ```toml
 # wally.toml
 [dependencies]
-RoactTemplate = "corecii/roact-template@0.1.0"
+RoactTemplate = "corecii/roact-template@0.2.0"
 ```
 
 When API dumps become outdated, open your `wally.lock` and remove the `corecii/api-dump-static` section, then run `wally install` again.
