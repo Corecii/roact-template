@@ -135,7 +135,7 @@ RoactTemplate.Select = require(script.Select)
 
 	:::caution
 
-	You should not modify `instance` or its children. It won't directly affect
+	You should not modify `templateInstance` or its children. It won't directly affect
 	the render, since `instance` is just a template, but it may affect future
 	renders that depend on the instance.
 
@@ -198,9 +198,8 @@ export type Root = typeof(RoactTemplate.Root)
 	The component's props are a dictionary of `Selector -> Changes` where:
 	* A `Selector` can be a `string` (fast) *or* a callback that acts on the
 	  Instance and returns true/false (slow).
-	* `Changes` can be a table of properties (including `Roact.Children`) or a
-	  function like `(props: { [any]: any }, children: { [string]: any }) -> ()`
-	  which mutates the props and children.
+	* `Changes` can be a table of properties or a function returning a table of
+	  properties.
 
 	For example:
 	```lua
@@ -210,17 +209,17 @@ export type Root = typeof(RoactTemplate.Root)
 	local InventoryTemplate = RoactTemplate.fromInstance(Roact, UITemplates.InventoryApp)
 
 	local function InventoryApp(props)
-		return Roact.createElement(InventoryTemplate, {
-			WindowTitle = {
-				Text = props.category,
-			},
-			OuterFrame = {
-				Visible = props.visible,
-			},
-			Scroller = {
-				[Roact.Children] = makeInventoryItems(props.items),
-			},
-		})
+	    return Roact.createElement(InventoryTemplate, {
+	        WindowTitle = {
+	            Text = props.category,
+	        },
+	        OuterFrame = {
+	            Visible = props.visible,
+	        },
+	        Scroller = {
+	            [Roact.Children] = makeInventoryItems(props.items),
+	        },
+	    })
 	end
 	```
 ]=]
